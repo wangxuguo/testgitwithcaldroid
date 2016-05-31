@@ -17,10 +17,10 @@ import hirondelle.date4j.DateTime;
 
 public class CaldroidSampleCustomAdapter extends CaldroidGridAdapter {
 
-	public CaldroidSampleCustomAdapter(Context context, int month, int year,
+	public CaldroidSampleCustomAdapter(Context context, int day,int month, int year,
 			Map<String, Object> caldroidData,
 			Map<String, Object> extraData) {
-		super(context, month, year, caldroidData, extraData);
+		super(context,day, month, year, caldroidData, extraData);
 	}
 
 	@Override

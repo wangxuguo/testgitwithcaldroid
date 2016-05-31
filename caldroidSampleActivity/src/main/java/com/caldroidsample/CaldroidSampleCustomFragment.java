@@ -6,9 +6,9 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 public class CaldroidSampleCustomFragment extends CaldroidFragment {
 
 	@Override
-	public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
+	public CaldroidGridAdapter getNewDatesGridAdapter(int day,int month, int year) {
 		// TODO Auto-generated method stub
-		return new CaldroidSampleCustomAdapter(getActivity(), month, year,
+		return new CaldroidSampleCustomAdapter(getActivity(), day, month, year,
 				getCaldroidData(), extraData);
 	}
 

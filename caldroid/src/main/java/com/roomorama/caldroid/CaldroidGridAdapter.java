@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -19,7 +20,9 @@ import com.caldroid.R;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import hirondelle.date4j.DateTime;
 
@@ -29,7 +32,9 @@ import hirondelle.date4j.DateTime;
  * @author thomasdao
  */
 public class CaldroidGridAdapter extends BaseAdapter {
+    public static final  String tag = "CaldroidGridAdapter";
     protected ArrayList<DateTime> datetimeList;
+    protected int day;
     protected int month;
     protected int year;
     protected Context context;
@@ -65,9 +70,13 @@ public class CaldroidGridAdapter extends BaseAdapter {
 	protected LayoutInflater localInflater;
 
     public void setAdapterDateTime(DateTime dateTime) {
+        this.day = dateTime.getDay();
         this.month = dateTime.getMonth();
         this.year = dateTime.getYear();
-        this.datetimeList = CalendarHelper.getFullWeeks(this.month, this.year,
+        Log.i(tag,"month: "+month+" year: "+year+" startDayOfWeek: "+startDayOfWeek+" sixWeeksInCalendar: "+sixWeeksInCalendar);
+//        this.datetimeList = CalendarHelper.getFullWeeks(this.month, this.year,
+//                startDayOfWeek, sixWeeksInCalendar);
+        this.datetimeList = CalendarHelper.getOneWeek(this.day ,this.month, this.year,
                 startDayOfWeek, sixWeeksInCalendar);
     }
 
@@ -140,23 +149,33 @@ public class CaldroidGridAdapter extends BaseAdapter {
      * @param caldroidData
      * @param extraData
      */
-    public CaldroidGridAdapter(Context context, int month, int year,
+    public CaldroidGridAdapter(Context context, int day ,int month, int year,
                                Map<String, Object> caldroidData,
                                Map<String, Object> extraData) {
         super();
+        this.day =day;
         this.month = month;
         this.year = year;
         this.context = context;
         this.caldroidData = caldroidData;
         this.extraData = extraData;
         this.resources = context.getResources();
+        logoutCaldroidData(caldroidData);
 
         // Get data from caldroidData
         populateFromCaldroidData();
 
-	    LayoutInflater inflater = (LayoutInflater) context
-			    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    localInflater = CaldroidFragment.getThemeInflater(context, inflater, themeResource);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        localInflater = CaldroidFragment.getThemeInflater(context, inflater, themeResource);
+    }
+
+    private void logoutCaldroidData(Map<String, Object> caldroidData) {
+        Set<String> keySet = caldroidData.keySet();
+        for(Iterator<String> iterator = keySet.iterator();iterator.hasNext();iterator.next()){
+           String str =  iterator.next();
+            Log.d(tag,str + caldroidData.get(str).toString());
+        }
     }
 
     /**
@@ -197,9 +216,10 @@ public class CaldroidGridAdapter extends BaseAdapter {
         themeResource = (Integer) caldroidData
                 .get(CaldroidFragment.THEME_RESOURCE);
 
-        this.datetimeList = CalendarHelper.getFullWeeks(this.month, this.year,
+//        this.datetimeList = CalendarHelper.getFullWeeks(this.month, this.year,
+//                startDayOfWeek, sixWeeksInCalendar);
+        this.datetimeList = CalendarHelper.getOneWeek(this.day,this.month, this.year,
                 startDayOfWeek, sixWeeksInCalendar);
-
         getDefaultResources();
     }
 

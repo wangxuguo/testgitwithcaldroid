@@ -241,6 +241,7 @@ public class CaldroidFragment extends DialogFragment {
      * Retrieve current month
      * @return
      */
+
     public int getMonth() {
         return month;
     }
@@ -261,8 +262,8 @@ public class CaldroidFragment extends DialogFragment {
      * Meant to be subclassed. User who wants to provide custom view, need to
      * provide custom adapter here
      */
-    public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
-        return new CaldroidGridAdapter(getActivity(), month, year,
+    public CaldroidGridAdapter getNewDatesGridAdapter(int day ,int month, int year) {
+        return new CaldroidGridAdapter(getActivity(), day,month, year,
                 getCaldroidData(), extraData);
     }
 
@@ -1327,6 +1328,9 @@ public class CaldroidFragment extends DialogFragment {
      * @param view
      */
     private void setupDateGridPages(View view) {
+        //TODO
+        //TODO
+        //TODO
         // Get current date time
         DateTime currentDateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
 
@@ -1336,7 +1340,7 @@ public class CaldroidFragment extends DialogFragment {
 
         // Setup adapters for the grid views
         // Current month
-        CaldroidGridAdapter adapter0 = getNewDatesGridAdapter(
+        CaldroidGridAdapter adapter0 = getNewDatesGridAdapter(currentDateTime.getDay(),
                 currentDateTime.getMonth(), currentDateTime.getYear());
 
         // Setup dateInMonthsList
@@ -1345,19 +1349,19 @@ public class CaldroidFragment extends DialogFragment {
         // Next month
         DateTime nextDateTime = currentDateTime.plus(0, 1, 0, 0, 0, 0, 0,
                 DateTime.DayOverflow.LastDay);
-        CaldroidGridAdapter adapter1 = getNewDatesGridAdapter(
+        CaldroidGridAdapter adapter1 = getNewDatesGridAdapter(nextDateTime.getDay(),
                 nextDateTime.getMonth(), nextDateTime.getYear());
 
         // Next 2 month
         DateTime next2DateTime = nextDateTime.plus(0, 1, 0, 0, 0, 0, 0,
                 DateTime.DayOverflow.LastDay);
-        CaldroidGridAdapter adapter2 = getNewDatesGridAdapter(
+        CaldroidGridAdapter adapter2 = getNewDatesGridAdapter(next2DateTime.getDay(),
                 next2DateTime.getMonth(), next2DateTime.getYear());
 
         // Previous month
         DateTime prevDateTime = currentDateTime.minus(0, 1, 0, 0, 0, 0, 0,
                 DateTime.DayOverflow.LastDay);
-        CaldroidGridAdapter adapter3 = getNewDatesGridAdapter(
+        CaldroidGridAdapter adapter3 = getNewDatesGridAdapter(prevDateTime.getDay(),
                 prevDateTime.getMonth(), prevDateTime.getYear());
 
         // Add to the array of adapters

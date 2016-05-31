@@ -1,5 +1,8 @@
 package com.roomorama.caldroid;
 
+import android.util.Log;
+
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,13 +18,58 @@ import hirondelle.date4j.DateTime;
  * @author thomasdao
  */
 public class CalendarHelper {
+    private static final String tag = "CalendarHelper";
 
     private static SimpleDateFormat yyyyMMddFormat;
+
 
     public static void setup() {
         yyyyMMddFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     }
 
+    public static ArrayList<DateTime> getOneWeek(int day,int month,int year,
+                                                 int startDayOfWeek, boolean sixWeeksInCalendar){
+        ArrayList<DateTime> datetimeList = new ArrayList<DateTime>();
+        Calendar calendar  = Calendar.getInstance();
+        DateTime today = new DateTime(year,month,day,0,0,0,0);
+        calendar.set(year,month,day,0,0,0);
+        //一周第一天是否为星期天
+        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+        Log.d(tag,"");
+        // 本周几
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        System.out.println("week is = " + week);
+        if( week != 7){   //首先得到每周第一天的时间 DateTime
+            calendar.add(Calendar.DAY_OF_MONTH,-week);
+        }else{
+
+        }
+        Date dateWeekFirstDay = calendar.getTime();
+        String str = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(dateWeekFirstDay);
+        System.out.println(str);
+        Calendar calendarNew = Calendar.getInstance();
+        calendarNew.set(year,month,day,0,0,0);
+        if( week == 7){   //首先得到每周第一天的时间 DateTime
+            calendar.add(Calendar.DAY_OF_MONTH,6);
+        }else  if( week != 6){   //首先得到每周第一天的时间 DateTime
+            calendar.add(Calendar.DAY_OF_MONTH,6-week);
+        }else{
+
+        }
+        Date dateWeekLastDay = calendarNew.getTime();
+        String str2 = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(dateWeekLastDay);
+        System.out.println(str2);
+        DateTime firstDateOfWeek = new DateTime(dateWeekFirstDay.getYear(),dateWeekFirstDay.getMonth(),
+                dateWeekFirstDay.getDay(),dateWeekFirstDay.getHours(),dateWeekFirstDay.getMinutes(),
+                dateWeekFirstDay.getSeconds(),123455678);
+
+        for ( int i = 0 ;i < 7; i ++ ){
+            Log.d(tag,"datetimeList add"+firstDateOfWeek.format("yyyy-MM-dd HH:mm:ss"));
+            datetimeList.add(firstDateOfWeek);
+            firstDateOfWeek = firstDateOfWeek.plusDays(1);
+        }
+        return datetimeList;
+    }
     /**
      * Retrieve all the dates for a given calendar month Include previous month,
      * current month and next month.

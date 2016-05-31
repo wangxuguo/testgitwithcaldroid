@@ -24,6 +24,7 @@ import java.util.Date;
 public class CaldroidSampleActivity extends AppCompatActivity {
     private boolean undo = false;
     private CaldroidFragment caldroidFragment;
+//    private CaldroidWeekFragment caldroidWeekFragment;
     private CaldroidFragment dialogCaldroidFragment;
 
     private void setCustomResourceForDates() {
@@ -58,7 +59,7 @@ public class CaldroidSampleActivity extends AppCompatActivity {
         // Setup caldroid fragment
         // **** If you want normal CaldroidFragment, use below line ****
         caldroidFragment = new CaldroidFragment();
-
+//        caldroidWeekFragment = new CaldroidWeekFragment();
         // //////////////////////////////////////////////////////////////////////
         // **** This is to show customized fragment. If you want customized
         // version, uncomment below line ****
@@ -225,7 +226,15 @@ public class CaldroidSampleActivity extends AppCompatActivity {
         });
 
         Button showDialogButton = (Button) findViewById(R.id.show_dialog_button);
-
+        Button show_weekcal_button = (Button) findViewById(R.id.show_weekcal_button);
+        show_weekcal_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+//                t.replace(R.id.calendar1, caldroidWeekFragment);
+//                t.commit();
+            }
+        });
         final Bundle state = savedInstanceState;
         showDialogButton.setOnClickListener(new OnClickListener() {
 
